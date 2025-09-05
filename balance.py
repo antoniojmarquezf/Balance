@@ -27,8 +27,17 @@ choice = st.selectbox("🔧 Selecciona una actividad:", options)
 if st.button("Asignar"):
     if choice:
         idx = options.index(choice)
-        act_id, act_val = st.session_state.remaining.pop(idx)  # quitar solo esa actividad
-        st.session_state.days[day].append((act_id, act_val))
+        act_id, act_val = st.session_state.remaining[idx]
+
+        # Verificar horas acumuladas en ese día
+        horas_usadas = sum(v for _, v in st.session_state.days[day])
+        if horas_usadas + act_val <= horas_por_dia:
+            # Se puede asignar
+            st.session_state.remaining.pop(idx)  # quitar solo esa actividad
+            st.session_state.days[day].append((act_id, act_val))
+            st.success(f"✅ Actividad de {act_val}h asignada a {day}")
+        else:
+            st.error(f"❌ No se puede asignar {act_val}h a {day}, superaría las {horas_por_dia}h")
 
 # Mostrar asignaciones
 st.subheader("📊 Distribución actual")
