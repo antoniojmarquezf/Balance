@@ -32,4 +32,15 @@ total_horas_libres = sum(horas_libres)
 
 # Mostrar resultados
 for i in range(dias):
-    st.subheader(f"Día {
+    st.subheader(f"Día {i+1}")
+    st.write(f"Actividades asignadas: {agenda[i]}")
+    st.write(f"Horas usadas: {horas_usadas[i]}")
+    st.write(f"Horas libres: {horas_libres[i]}")
+
+st.subheader("Actividades no programadas")
+st.write(pendientes)
+
+st.subheader("Resumen")
+st.write(f"Total de horas sin llenarse: {total_horas_libres}")
+
+
