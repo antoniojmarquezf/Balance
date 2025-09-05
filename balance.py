@@ -1,37 +1,35 @@
 import streamlit as st
 
-# Lista original de duraciones
-durations = [5, 1, 7, 6, 2, 7, 4, 3, 6, 3, 4]
+# Datos de entrada
+duraciones = [5, 1, 7, 6, 2, 7, 4, 3, 6, 3, 4]
+horas_por_dia = 8
+dias = 6
 
-# Convertir en ítems únicos con IDs
-activities = [(i, d) for i, d in enumerate(durations)]
+st.title("Planificador de Actividades en 6 días de 8 horas")
 
-# Guardar en session_state
-if "remaining" not in st.session_state:
-    st.session_state.remaining = activities
-if "days" not in st.session_state:
-    st.session_state.days = {f"Día {i+1}": [] for i in range(6)}
+# Inicializar contenedores para los días
+agenda = [[] for _ in range(dias)]
+horas_usadas = [0] * dias
 
-st.title("Juego de Programación de Mantenimiento")
+# Copia de las duraciones para ir asignando
+pendientes = duraciones.copy()
 
-# Selección de día
-day = st.selectbox("Selecciona un día:", list(st.session_state.days.keys()))
+# Algoritmo sencillo: colocar cada actividad en el primer día donde quepa
+for d in duraciones:
+    asignado = False
+    for i in range(dias):
+        if horas_usadas[i] + d <= horas_por_dia:
+            agenda[i].append(d)
+            horas_usadas[i] += d
+            asignado = True
+            break
+    if asignado:
+        pendientes.remove(d)
 
-# Selección de actividad (mostrar valor, pero guardar ID)
-options = [f"ID{i}: {d}h" for i, d in st.session_state.remaining]
-choice = st.selectbox("Selecciona una actividad:", options)
+# Calcular resultados
+horas_libres = [horas_por_dia - h for h in horas_usadas]
+total_horas_libres = sum(horas_libres)
 
-if st.button("Asignar"):
-    if choice:
-        idx = options.index(choice)
-        act_id, act_val = st.session_state.remaining.pop(idx)  # quitar solo esa actividad
-        st.session_state.days[day].append((act_id, act_val))
-
-# Mostrar asignaciones
-st.subheader("Distribución actual")
-for d, acts in st.session_state.days.items():
-    horas = sum(v for _, v in acts)
-    st.write(f"**{d}** ({horas}h): {', '.join(str(v) for _, v in acts)}")
-
-st.subheader("Actividades restantes")
-st.write([v for _, v in st.session_state.remaining])
+# Mostrar resultados
+for i in range(dias):
+    st.subheader(f"Día {
