@@ -3,11 +3,11 @@ import streamlit as st
 st.set_page_config(page_title="Juego de Programación de Mantenimiento", layout="wide")
 
 st.title("🛠️ Juego de Programación de Mantenimiento")
-st.write("Distribuye las actividades en días de 8 horas. Una vez uses una actividad, desaparecerá de las opciones siguientes.")
+st.write("Distribuye las actividades en 6 días de 8 horas. Una vez uses una actividad, desaparecerá de las opciones siguientes.")
 
 # Lista inicial de actividades
 if "actividades" not in st.session_state:
-    st.session_state.actividades = [2, 1, 5, 3, 2, 6, 5, 8, 7, 1, 3, 2]
+    st.session_state.actividades = [2, 1, 5, 3, 2, 6, 5, 8, 7, 1, 3, 2, 3]
 
 actividades = st.session_state.actividades.copy()
 
@@ -61,3 +61,4 @@ if st.button("🔄 Reiniciar juego"):
         if key.startswith("dia"):
             del st.session_state[key]
     st.experimental_rerun()
+
