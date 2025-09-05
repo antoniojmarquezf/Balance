@@ -7,7 +7,7 @@ st.write("Distribuye las actividades en 6 días de 8 horas. Una vez uses una act
 
 # Lista inicial de actividades
 if "actividades" not in st.session_state:
-    st.session_state.actividades = [2, 1, 5, 3, 2, 6, 4, 8, 7, 2, 3, 2, 3]
+    st.session_state.actividades = [2, 1, 5, 3, 2, 6, 4, 8, 7, 5, 3, 2, 3]
 
 actividades = st.session_state.actividades.copy()
 
@@ -61,5 +61,6 @@ if st.button("🔄 Reiniciar juego"):
         if key.startswith("dia"):
             del st.session_state[key]
     st.experimental_rerun()
+
 
 
